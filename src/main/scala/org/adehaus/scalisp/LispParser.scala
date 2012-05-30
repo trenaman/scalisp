@@ -21,6 +21,7 @@ class LispParser extends JavaTokenParsers {
     | "("~ident~rep(atom)~")" ^^ {
         case "("~f~params~")" => FunctionCall(f, params)
       }
+    | failure("Failure parsing s-expr")
   )
 
   def atom: Parser[Sexpr] = (
@@ -29,6 +30,7 @@ class LispParser extends JavaTokenParsers {
       | decimalNumber ^^ { x: String => FloatConstant(x.toFloat) }
       | stringLiteral ^^ { x: String => StringConstant(x.toString) }
       | sexpr
+      | failure ("Failure parsing atom")
   )
 
   def variable_list: Parser[List[String]] = "("~>rep(ident)<~")"
