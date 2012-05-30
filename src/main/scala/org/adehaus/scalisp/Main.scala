@@ -46,7 +46,7 @@ object Main extends LispParser {
       case ":h"         => ( 0, helpMessage, env)
       case ":env"       => ( 0, env.toString, env)
       case s if(s.startsWith(":load")) =>
-        val fileName = s.substring(5).trim
+        val fileName = s.substring(":load".length).trim
         val file = new FileReader(fileName)
         evalParseResult(parseAll(sexpr, file), env)
       case trimmedCmd   => {
